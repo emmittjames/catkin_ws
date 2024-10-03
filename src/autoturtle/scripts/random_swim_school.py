@@ -40,10 +40,12 @@ class ControlTurtlesim():
         self.pose = data
         if self.starting_pose == None:
             self.starting_pose = self.pose
+            self.teleport_turtle(self.starting_pose.x, self.starting_pose.y, 0)
         distance = math.sqrt((self.pose.x - self.starting_pose.x) ** 2 + (self.pose.y - self.starting_pose.y) ** 2)
         if distance < self.tolerance and rospy.get_time()-self.switch_time > self.switch_time_interval:
             self.move_cmd.angular.z *= -1
             self.velocity_publisher.publish(self.move_cmd)
+            self.teleport_turtle(self.starting_pose.x, self.starting_pose.y, 0)
             self.switch_time = rospy.get_time()
             
     def teleport_turtle(self, x, y, theta):
@@ -59,6 +61,14 @@ class ControlTurtlesim():
         set_pen_service = rospy.ServiceProxy('/turtle1/set_pen', SetPen)
         try:
             set_pen_service(r, g, b, width, off)
+        except rospy.ServiceException as e:
+            rospy.logerr(f"Service call failed: {e}")
+            
+    def teleport_turtle(self, x, y, theta):
+        rospy.wait_for_service('/turtle1/teleport_absolute')
+        teleport_turtle = rospy.ServiceProxy('/turtle1/teleport_absolute', TeleportAbsolute)
+        try:
+            teleport_turtle(x, y, theta)
         except rospy.ServiceException as e:
             rospy.logerr(f"Service call failed: {e}")
 
