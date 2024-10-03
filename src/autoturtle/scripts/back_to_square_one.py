@@ -38,7 +38,6 @@ class ControlTurtlesim():
                 print("Invalid input")
         self.side_length = side_length
         
-        print("changing background")
         self.change_background_color(255, 0, 0)
         self.move_cmd = Twist()
         self.default_linear_speed = 3
@@ -113,8 +112,7 @@ class ControlTurtlesim():
     def change_background_color(self, r, g, b):
         rospy.wait_for_service('/clear')
         clear = rospy.ServiceProxy('/clear', Empty)
-        try: 
-            print("setting params")
+        try:
             rospy.set_param('/turtlesim/background_r' , r)
             rospy.set_param('/turtlesim/background_g' , g)
             rospy.set_param('/turtlesim/background_b' , b)
