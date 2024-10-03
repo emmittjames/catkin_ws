@@ -1,4 +1,4 @@
 <launch>
     <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
-    <node pkg="autoturtle" name="swim_school" type="random_swim_school.py" output="screen"/>
+    <node pkg="autoturtle" name="random_swim_school" type="random_swim_school.py" output="screen"/>
 </launch>
