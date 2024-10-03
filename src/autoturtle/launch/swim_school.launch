@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+    <node pkg="autoturtle" name="swim_school" type="swim_school.py" output="screen"/>
+</launch>
