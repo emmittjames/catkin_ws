@@ -35,8 +35,8 @@ class TurtleBot:
         tolerance = float(input("Enter the tolerance: "))
 
         vel_msg = Twist()
-        v_gain = 1.5
-        a_gain = 6
+        v_gain = 1.3
+        a_gain = 7
         while self.calculate_distance(target_pose) >= tolerance:
             vel_msg.linear.x = self.calculate_distance(target_pose) * v_gain
             
