@@ -27,12 +27,24 @@ class TurtleBot:
     def shutdown(self):
         self.velocity_publisher.publish(Twist())
         rospy.sleep(1)
+        
+    def get_float_input(self, message, lower_bound, upper_bound):
+        while True:
+            try:
+                ret = float(input(message))
+                if ret>=lower_bound and ret<=upper_bound:
+                    break
+                else:
+                    print(f"Input must be between {lower_bound} and {upper_bound}")
+            except ValueError:
+                print("Invalid input")
+        return ret
 
     def main(self):
         target_pose = Pose()
-        target_pose.x = float(input("Enter the x goal: "))
-        target_pose.y = float(input("Enter the y goal: "))
-        tolerance = float(input("Enter the tolerance: "))
+        target_pose.x = self.get_float_input("Enter the x goal: ", 0.1, 10)
+        target_pose.y = self.get_float_input("Enter the y goal: ", 0.1, 10)
+        tolerance = self.get_float_input("Enter the tolerance: ", 0, 10)
 
         vel_msg = Twist()
         v_gain = 1.3
